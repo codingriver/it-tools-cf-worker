@@ -14,11 +14,13 @@ const theme = computed(() => (styleStore.isDarkTheme ? darkTheme : null));
 const themeOverrides = computed(() => (styleStore.isDarkTheme ? darkThemeOverrides : lightThemeOverrides));
 
 const { locale } = useI18n();
+const storedLocale = useStorage('it-tools:locale', locale.value, permanentCookieStorage);
 
-syncRef(
-  locale,
-  useStorage('it-tools:locale', locale.value, permanentCookieStorage),
-);
+locale.value = storedLocale.value;
+
+watch(locale, (newLocale) => {
+  storedLocale.value = newLocale;
+});
 </script>
 
 <template>
