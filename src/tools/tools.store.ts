@@ -4,9 +4,10 @@ import type { Ref } from 'vue';
 import _ from 'lodash';
 import type { Tool, ToolCategory, ToolWithCategory } from './tools.types';
 import { toolsWithCategory } from './index';
+import { permanentCookieStorage } from '@/utils/cookieStorage';
 
 export const useToolStore = defineStore('tools', () => {
-  const favoriteToolsName = useStorage('favoriteToolsName', []) as Ref<string[]>;
+  const favoriteToolsName = useStorage<string[]>('it-tools:favoriteToolsName', [], permanentCookieStorage) as Ref<string[]>;
   const { t } = useI18n();
 
   const tools = computed<ToolWithCategory[]>(() => toolsWithCategory.map((tool) => {

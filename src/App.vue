@@ -4,6 +4,7 @@ import { NGlobalStyle, NMessageProvider, NNotificationProvider, darkTheme } from
 import { darkThemeOverrides, lightThemeOverrides } from './themes';
 import { layouts } from './layouts';
 import { useStyleStore } from './stores/style.store';
+import { permanentCookieStorage } from './utils/cookieStorage';
 
 const route = useRoute();
 const layout = computed(() => route?.meta?.layout ?? layouts.base);
@@ -16,7 +17,7 @@ const { locale } = useI18n();
 
 syncRef(
   locale,
-  useStorage('locale', locale),
+  useStorage('it-tools:locale', locale.value, permanentCookieStorage),
 );
 </script>
 
