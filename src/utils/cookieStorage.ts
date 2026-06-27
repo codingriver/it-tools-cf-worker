@@ -2,6 +2,11 @@ import type { StorageLike } from '@vueuse/core';
 
 const maxCookieAgeSeconds = 60 * 60 * 24 * 400;
 
+export const localeCookieKey = 'it-tools-locale';
+export const legacyLocaleCookieKey = 'it-tools:locale';
+export const favoriteToolsCookieKey = 'it-tools-favorite-tools';
+export const legacyFavoriteToolsCookieKey = 'it-tools:favoriteToolsName';
+
 function getCookieOptions() {
   const options = [
     `Max-Age=${maxCookieAgeSeconds}`,
@@ -20,7 +25,8 @@ export const permanentCookieStorage: StorageLike = {
   getItem(key: string) {
     const encodedKey = encodeURIComponent(key);
     const cookie = document.cookie
-      .split('; ')
+      .split(';')
+      .map(cookie => cookie.trim())
       .find(cookie => cookie.startsWith(`${encodedKey}=`));
 
     if (!cookie) {

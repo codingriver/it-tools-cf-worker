@@ -2,10 +2,16 @@ import messages from '@intlify/unplugin-vue-i18n/messages';
 import { get } from '@vueuse/core';
 import type { Plugin } from 'vue';
 import { createI18n } from 'vue-i18n';
+import { legacyLocaleCookieKey, localeCookieKey, permanentCookieStorage } from '@/utils/cookieStorage';
+
+const defaultLocale = 'en';
+const savedLocale = permanentCookieStorage.getItem(localeCookieKey)
+  ?? permanentCookieStorage.getItem(legacyLocaleCookieKey)
+  ?? defaultLocale;
 
 const i18n = createI18n({
   legacy: false,
-  locale: 'en',
+  locale: savedLocale,
   messages,
 });
 

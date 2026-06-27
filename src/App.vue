@@ -4,7 +4,11 @@ import { NGlobalStyle, NMessageProvider, NNotificationProvider, darkTheme } from
 import { darkThemeOverrides, lightThemeOverrides } from './themes';
 import { layouts } from './layouts';
 import { useStyleStore } from './stores/style.store';
-import { permanentCookieStorage } from './utils/cookieStorage';
+import {
+  legacyLocaleCookieKey,
+  localeCookieKey,
+  permanentCookieStorage,
+} from './utils/cookieStorage';
 
 const route = useRoute();
 const layout = computed(() => route?.meta?.layout ?? layouts.base);
@@ -14,7 +18,12 @@ const theme = computed(() => (styleStore.isDarkTheme ? darkTheme : null));
 const themeOverrides = computed(() => (styleStore.isDarkTheme ? darkThemeOverrides : lightThemeOverrides));
 
 const { locale } = useI18n();
-const storedLocale = useStorage('it-tools:locale', locale.value, permanentCookieStorage);
+const storedLocale = useStorage(localeCookieKey, locale.value, permanentCookieStorage);
+const legacyStoredLocale = permanentCookieStorage.getItem(legacyLocaleCookieKey);
+
+if (legacyStoredLocale && !permanentCookieStorage.getItem(localeCookieKey)) {
+  storedLocale.value = legacyStoredLocale;
+}
 
 locale.value = storedLocale.value;
 
