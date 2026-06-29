@@ -36,6 +36,40 @@ docker run -d --name it-tools --restart unless-stopped -p 8080:80 ghcr.io/corent
 - [Tipi](https://www.runtipi.io/docs/apps-available)
 - [Unraid](https://unraid.net/community/apps?q=it-tools)
 
+## Cloudflare Pages fork
+
+This fork is deployed to Cloudflare Pages.
+
+- Repository: <https://github.com/codingriver/it-tools-cf-worker>
+- Cloudflare Pages project: `it-tools`
+- Production domain: <https://it.303066.xyz>
+- Pages domain: <https://it-tools-7a9.pages.dev>
+
+Build and deploy manually with:
+
+```sh
+pnpm install
+pnpm run typecheck
+NODE_OPTIONS=--max_old_space_size=4096 pnpm exec vite build
+npx wrangler pages deploy dist --project-name it-tools --branch main
+```
+
+On Windows PowerShell, set `NODE_OPTIONS` before running the build:
+
+```powershell
+$env:NODE_OPTIONS='--max_old_space_size=4096'
+pnpm exec vite build
+```
+
+### Persistent preferences
+
+This fork stores language selection and favorite tools in long-lived cookies so the UI keeps the selected locale and favorites after the browser is closed and reopened.
+
+- Language cookie: `it-tools-locale`
+- Favorites cookie: `it-tools-favorite-tools`
+- Cookie lifetime: 400 days
+- Cookie attributes: `Path=/`, `SameSite=Lax`, and `Secure` on HTTPS
+
 ## Contribute
 
 ### Recommended IDE Setup
