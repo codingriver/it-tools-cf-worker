@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 .wrangler/
 .DS_Store
+components.d.ts
 dist
 dist-ssr
 coverage
